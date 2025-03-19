@@ -147,7 +147,8 @@ app.post('/generate-itinerary', async(req, res) => {
                 "currency": "INR"
               },
               "rating": RATING_OUT_OF_10,
-              "images": ["IMAGE_URL_1", "IMAGE_URL_2"]
+              "images": ["IMAGE_URL_1", "IMAGE_URL_2"],
+              "note" : A SHORT NOTE AROUND 300 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE
             },
             {
               "name": "PLACE_NAME_2",
@@ -160,7 +161,8 @@ app.post('/generate-itinerary', async(req, res) => {
                 "currency": "INR"
               },
               "rating": RATING_OUT_OF_10,
-              "images": ["IMAGE_URL_1", "IMAGE_URL_2"]
+              "images": ["IMAGE_URL_1", "IMAGE_URL_2"],
+              "note" : A SHORT NOTE AROUND 300 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE
             },
             ... (and so on for all ${days * 4} places)
           ]
@@ -235,7 +237,7 @@ app.post('/generate-itinerary', async(req, res) => {
                 if (idx >= 0 && idx < itineraryData.places.length) {
                     console.log(`${i+1}. ${itineraryData.places[idx].name} - ` +
                         `Cost: ${itineraryData.places[idx].travel_cost.to_next} ${itineraryData.places[idx].travel_cost.currency}, ` +
-                        `Rating: ${itineraryData.places[idx].rating}/10`);
+                        `Worth going to: ${itineraryData.places[idx].rating}/10` + `\n   Description: ${itineraryData.places[idx].note}\n`);
                 } else {
                     console.log(`Warning: Invalid place index ${idx}`);
                 }
