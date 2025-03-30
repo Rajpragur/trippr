@@ -104,7 +104,6 @@ const fetchFlightLink = async (place) => {
           'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com'
         }
       };
-
     try {
         const response = await fetch(url, options);
         const result = await response.json();
@@ -116,6 +115,7 @@ const fetchFlightLink = async (place) => {
 };
 
 app.post('/generate-itinerary', async(req, res) => {
+    console.log(req.body);
     const {place, days} = req.body;
     if(!place || !days){
         return res.status(400).json({ error: "Missing place or days Please give input correctly" });
@@ -147,6 +147,7 @@ app.post('/generate-itinerary', async(req, res) => {
                 "currency": "INR"
               },
               "rating": RATING_OUT_OF_10,
+              "distance": DISTANCE_FROM_${place},
               "images": ["IMAGE_URL_1", "IMAGE_URL_2"],
               "note" : A SHORT NOTE AROUND 300 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE
             },
@@ -168,7 +169,8 @@ app.post('/generate-itinerary', async(req, res) => {
           ]
         }
         
-        Ensure you include exactly ${days * 4} places in the JSON response. The places should be different tourist attractions in ${place}. Make sure to include the correct coordinates with more precision upto 100 metres for each place.`;
+        Ensure you include exactly ${days * 4} places in the JSON response. The places should be different tourist attractions in ${place}. Make sure to include the correct coordinates with more precision upto 100 metres for each place.
+        Provide exact geographic coordinates with 6 decimal places of precision for each location. Coordinates must be accurate and correspond to the actual location of each attraction in ${place}.`;
         console.log();
         console.log("Sending prompt to API...");
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -178,8 +180,8 @@ app.post('/generate-itinerary', async(req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: "mistralai/mistral-7b-instruct:free",
-                messages: [{ role: "user", content: prompt }]
+                "model": "anthropic/claude-3.5-haiku",
+                "messages": [{ "role": "user", "content": prompt }]
             })
         });
         
@@ -236,7 +238,7 @@ app.post('/generate-itinerary', async(req, res) => {
                 const idx = path[i];
                 if (idx >= 0 && idx < itineraryData.places.length) {
                     console.log(`${i+1}. ${itineraryData.places[idx].name} - ` +
-                        `Cost: ${itineraryData.places[idx].travel_cost.to_next} ${itineraryData.places[idx].travel_cost.currency}, ` +
+                        `Cost: ${itineraryData.places[idx].travel_cost.to_next} ${itineraryData.places[idx].travel_cost.currency}, ` + `Distance: ${itineraryData.places[idx].distance} km, `+
                         `Worth going to: ${itineraryData.places[idx].rating}/10` + `\n   Description: ${itineraryData.places[idx].note}\n`);
                 } else {
                     console.log(`Warning: Invalid place index ${idx}`);
