@@ -1,0 +1,8 @@
+{
+    "functions": {
+      "api/generate-itinerary.js": {
+        "runtime": "nodejs18.x"
+      }
+    }
+  }
+  
