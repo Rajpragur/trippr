@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 require('dotenv').config();
-
+const cors = require("cors");
+app.use(cors());
 const PORT = 3000;
 app.use(express.json());
 app.get('/', (req, res) => {
@@ -69,51 +70,6 @@ let location = null;
 let day = null;
 let nodes = null;;
 
-const fetchHotelLink = async (place) => {
-    const encodedPlace = encodeURIComponent(place);
-    const hotelUrl = `https://booking-com15.p.rapidapi.com/api/v1/attraction/getAttractionReviews?id=${encodedPlace}&page=1`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-key': process.env.RAPID_API_KEY,
-            'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
-        }
-    };
-
-    try {
-        const response = await fetch(hotelUrl, options);
-        const result = await response.json();
-        if (result?.data?.length > 0) {
-            return result.data[0].url || null;
-        }
-        return null;
-    } catch (error) {
-        console.error("Error fetching hotel link:", error);
-        return null;
-    }
-};
-
-
-const fetchFlightLink = async (place) => {
-    const encodedPlace = encodeURIComponent(place);
-    const url = `https://sky-scanner3.p.rapidapi.com/cars/auto-complete?query=${encodedPlace}`;
-    const options = {
-        method: 'GET',
-        headers: {
-          'x-rapidapi-key': process.env.RAPID_API_KEY,
-          'x-rapidapi-host': 'sky-scanner3.p.rapidapi.com'
-        }
-      };
-    try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        return result?.data?.[0]?.url || null;
-    } catch (error) {
-        console.error("Error fetching Flight link:", error);
-        return null;
-    }
-};
-
 app.post('/generate-itinerary', async(req, res) => {
     console.log(req.body);
     const {place, days} = req.body;
@@ -122,19 +78,14 @@ app.post('/generate-itinerary', async(req, res) => {
     }
     
     try {
-        const hotelLink = await fetchHotelLink(place);
-        const flightLink = await fetchFlightLink(place);
         location = place;
         day = days;
         const prompt = `Generate a detailed travel itinerary for the city of "${place}" for ${days} days. I need exactly ${days * 4} different tourist places (not duplicates). For each place, include complete information with name, location (latitude and longitude), travel cost, rating, and image URLs.
         
         Return the response in **pure JSON format** only — no additional text or explanations. Use the following exact JSON structure:
-        
         {
           "Place": "${place}",
           "Days": ${days},
-          "hotel_link": "${hotelLink || 'N/A'}", 
-          "flight_link": "${flightLink || 'N/A'}", 
           "places": [
             {
               "name": "PLACE_NAME_1",
@@ -143,13 +94,14 @@ app.post('/generate-itinerary', async(req, res) => {
                 "longitude": LONGITUDE
               },
               "travel_cost": {
-                "to_next": "COST TO TRAVEL OR GO TO THIS PLACE",
+                "to_next": COST TO TRAVEL OR GO TO THIS PLACE FROM CENTER OF ${place},
                 "currency": "INR"
               },
               "rating": RATING_OUT_OF_10,
               "distance": DISTANCE_FROM_${place},
+              "nearby": HOW TO REACH HERE, WHICH AREA IT IS IN OR WHERE IT IS,
               "images": ["IMAGE_URL_1", "IMAGE_URL_2"],
-              "note" : A SHORT NOTE AROUND 300 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE
+              "note" : A SHORT NOTE AROUND 300-400 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE INCLUDE SOME MUSTS AND SUGGESTIONS ON WHAT YOU MUST DO OR NOT HERE TO AVOID OR MAKE IT BETTER
             },
             {
               "name": "PLACE_NAME_2",
@@ -162,15 +114,18 @@ app.post('/generate-itinerary', async(req, res) => {
                 "currency": "INR"
               },
               "rating": RATING_OUT_OF_10,
+              "distance": DISTANCE_FROM_${place},
+              "nearby": HOW TO REACH HERE, WHICH AREA IT IS IN OR WHERE IT IS,
               "images": ["IMAGE_URL_1", "IMAGE_URL_2"],
-              "note" : A SHORT NOTE AROUND 300 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE
+              "note" : A SHORT NOTE AROUND 300-400 CHARACTERS ABOUT THE PLACE AND WHAT TO ENJOY HERE INCLUDE SOME MUSTS AND SUGGESTIONS ON WHAT YOU MUST DO OR NOT HERE TO AVOID OR MAKE IT BETTER
             },
             ... (and so on for all ${days * 4} places)
           ]
         }
         
         Ensure you include exactly ${days * 4} places in the JSON response. The places should be different tourist attractions in ${place}. Make sure to include the correct coordinates with more precision upto 100 metres for each place.
-        Provide exact geographic coordinates with 6 decimal places of precision for each location. Coordinates must be accurate and correspond to the actual location of each attraction in ${place}.`;
+        Provide exact geographic coordinates with 6 decimal places of precision for each location. Coordinates must be accurate and correspond to the actual location of each attraction in ${place}
+        Also scale the ratings overall relatively in those ${days * 4} places so the best place gets a rating 10 and other gets a rating less.`;
         console.log();
         console.log("Sending prompt to API...");
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -180,7 +135,7 @@ app.post('/generate-itinerary', async(req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "model": "anthropic/claude-3.5-haiku",
+                "model": "meta-llama/llama-4-maverick:free",
                 "messages": [{ "role": "user", "content": prompt }]
             })
         });
@@ -198,7 +153,7 @@ app.post('/generate-itinerary', async(req, res) => {
             const cleanedContent = content.replace(/^```json|```$/g, '').trim();
 
             const itinerary = JSON.parse(cleanedContent);
-            
+            console.log("Parsed places:", itinerary.places);
             console.log(`Number of places returned: ${itinerary.places?.length || 0}`);
             itineraryData = {
                 ...itinerary,

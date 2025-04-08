@@ -1,0 +1,370 @@
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.heading{
+  color: #ffffff;
+  font-size: 2em;
+}
+#logo {
+  font-size: 200%;
+
+  font-family:Arial, Helvetica, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+}
+#where_to {
+  font-weight: bolder;
+  margin-top: -2%;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 4em;
+  color: white;
+  border:aqua;
+  height: 10vh;
+  transition: 0.3s ease-in-out;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 40px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#loading {
+  margin: 30px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: italic;
+}
+#itinerary-results {
+  margin-top: 50  px;
+}
+
+#result-title {
+  color: white;
+  text-decoration: underline;
+  margin-left: auto;
+  text-transform: uppercase;
+  text-align: center;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.optimal-path {
+  display: grid;
+  align-items: center;
+  margin-left: 5%;
+  margin-right: 5%;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 100px;
+}
+.input {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+  font-weight: 500;
+  font-size: 1.2vw;
+  color: #000;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 0 .4vw aqua, 0 0 0 .15vw transparent;
+  border-radius: 0.9vw;
+  width:70%;
+  margin-inline: auto;
+  border: none;
+  outline: none;
+  padding: 0.4vw;
+  transition: .5s;
+}
+
+.input:hover {
+  box-shadow: 0 0 0 1vw rgba(135, 207, 235, 0.186);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 .4vw aqua;
+}
+#error-message {
+  background-color: #fff0f0;
+  border-left: 4px solid white;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+@media (max-width: 600px) {
+  .optimal-path {
+    grid-template-columns: 1fr;
+  }
+  input, button {
+    padding: 12px;
+  }
+}
+.ending{
+  margin-top: 5%;
+  text-align: center;
+}
+.wrapper {
+  width: 150px;
+  height: 70px;
+  position: relative;
+  margin: auto;
+  z-index: 1;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  left: 15%;
+  transform-origin: 50%;
+  animation: circle7124 .5s alternate infinite ease;
+}
+
+@keyframes circle7124 {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.circle:nth-child(2) {
+  left: 45%;
+  animation-delay: .2s;
+}
+
+.circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+.shadow {
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.9);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: shadow046 .5s alternate infinite ease;
+}
+
+@keyframes shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scaleX(.2);
+    opacity: .4;
+  }
+}
+
+.shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: .2s
+}
+
+.shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+button {
+  background-color: white;
+  color: black;
+  border-radius: 10em;
+  font-size: 17px;
+  display: block;
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 600;
+  padding: 1em 2em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 5px solid white;
+  box-shadow: 0 0 0 0 black;
+}
+
+button:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: .4vw .4vw 0 0 aqua;
+};
+
+button:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: .4vw .4vw 0 0 aqua;
+};
+.card {
+  width: 300px;
+  padding: 20px;
+  border: solid 20px #000;
+  color: white;
+  box-shadow: 12px 12px 20px white;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translate(-5px, -5px);
+  border: white solid;
+  box-shadow: 17px 17px 0 white;
+}
+
+.card__title {
+  margin-left: 5%;
+  margin-right: auto;
+  font-size: 25px;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  inset: -1em;
+  --c: 7px;
+  background-color: #000;
+  background-image: radial-gradient(
+      circle at 50% 50%,
+      #0000 1.5px,
+      #000 0 var(--c),
+      #0000 var(--c)
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      #0000 1.5px,
+      #000 0 var(--c),
+      #0000 var(--c)
+    ),
+    radial-gradient(circle at 50% 50%, #f00, #f000 60%),
+    radial-gradient(circle at 50% 50%, #ff0, #ff00 60%),
+    radial-gradient(circle at 50% 50%, #0f0, #0f00 60%),
+    radial-gradient(ellipse at 50% 50%, #00f, #00f0 60%);
+  background-size:
+    12px 20.7846097px,
+    12px 20.7846097px,
+    200% 200%,
+    200% 200%,
+    200% 200%,
+    200% 20.7846097px;
+  --p: 0px 0px, 6px 10.39230485px;
+  background-position:
+    var(--p),
+    0% 0%,
+    0% 0%,
+    0% 0px;
+  animation:
+    wee 40s linear infinite,
+    filt 6s linear infinite;
+}
+
+@keyframes filt {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes wee {
+  0% {
+    background-position:
+      var(--p),
+      800% 400%,
+      1000% -400%,
+      -1200% -600%,
+      400% 41.5692194px;
+  }
+  to {
+    background-position:
+      var(--p),
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0% 0%;
+  }
+}
+
+.card__title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  height: 3px;
+  background-color: white;
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+.card:hover .card__title::after {
+  transform: translateX(0);
+}
+
+.card__content {
+  font-size: 16px;
+  margin-right: 5%;
+  margin-left: 5%;
+  line-height: 1.4;
+  color: white;
+  margin-bottom: 20px;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(2px, 2px);
+  }
+  25% {
+    transform: translate(-2px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  75% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(2px, 2px);
+  }
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+.ending{
+  text-transform: capitalize;
+  color: white;
+  font-size: 2vw;
+  padding-bottom: 5%;
+}
