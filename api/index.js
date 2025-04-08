@@ -1,14 +1,17 @@
 const express = require("express");
+const serverless = require("serverless-http");
 const app = express();
 require('dotenv').config();
 const cors = require("cors");
-app.use(cors());
-const PORT = 3000;
-app.use(express.json());
-app.get('/', (req, res) => {
-    res.send('Hi, Seems like Trippr is working!');
-});
 
+app.use(cors());
+app.use(express.json());
+
+const PORT = 3000;
+
+app.get("/", (req, res) => {
+  res.send("Hi, Seems like Trippr is working!");
+});
 app.post('/submit', (req, res) => {
     console.log(req.body);
     res.json({ message: "Data received!", data: req.body });
@@ -218,3 +221,5 @@ app.post('/generate-itinerary', async(req, res) => {
 app.listen(PORT, () => {
     console.log("It's working on PORT:" + PORT);
 });
+module.exports = app;
+module.exports.handler = serverless(app);
