@@ -73,7 +73,7 @@ let location = null;
 let day = null;
 let nodes = null;;
 
-app.post('/generate-itinerary', async(req, res) => {
+app.post('https://trippr-six.vercel.app/api/generate-itinerary', async(req, res) => {
     console.log(req.body);
     const {place, days} = req.body;
     if(!place || !days){
