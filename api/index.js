@@ -1,5 +1,4 @@
 const express = require("express");
-const serverless = require("serverless-http");
 const app = express();
 require('dotenv').config();
 const cors = require("cors");
@@ -73,7 +72,7 @@ let location = null;
 let day = null;
 let nodes = null;;
 
-app.post('https://trippr-six.vercel.app/api/generate-itinerary', async(req, res) => {
+app.post('/api/generate-itinerary', async(req, res) => {
     console.log(req.body);
     const {place, days} = req.body;
     if(!place || !days){
@@ -221,5 +220,3 @@ app.post('https://trippr-six.vercel.app/api/generate-itinerary', async(req, res)
 app.listen(PORT, () => {
     console.log("It's working on PORT:" + PORT);
 });
-module.exports = app;
-module.exports.handler = serverless(app);

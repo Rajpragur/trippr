@@ -57,9 +57,9 @@
                 errorMessage.style.display = "none";
                 resultsDiv.style.display = "none";
                 loadingDiv.style.display = "block";
-
+                completionDiv.style.display="none";
                 try {
-                    const response = await fetch("https://trippr-six.vercel.app/api/generate-itinerary", {
+                    const response = await fetch("http://localhost:3000/api/generate-itinerary", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ place, days }),
@@ -97,6 +97,7 @@
                             `;
                         });
                         completionDiv.innerHTML = '<h1 class="ending">Have a Safe and Nice Journey</h1>';
+                        completionDiv.style.display = "block";
                     } else {
                         pathHTML += '<p>No places found in the itinerary.</p>';
                     }
