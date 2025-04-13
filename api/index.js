@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
+const serverless = require('serverless-http');
+const path = require('path');
 require('dotenv').config();
 const cors = require("cors");
-
+const fetch = require("node-fetch");
 app.use(cors());
 app.use(express.json());
 
@@ -217,6 +219,5 @@ app.post('/api/generate-itinerary', async(req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log("It's working on PORT:" + PORT);
-});
+module.exports = app;
+

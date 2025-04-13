@@ -59,7 +59,7 @@
                 loadingDiv.style.display = "block";
                 completionDiv.style.display="none";
                 try {
-                    const response = await fetch("http://localhost:3000/api/generate-itinerary", {
+                    const response = await fetch('/api/generate-itinerary', {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ place, days }),
