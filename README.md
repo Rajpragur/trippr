@@ -39,12 +39,12 @@ trippr/
 npm install
 
 ### Add your API keys. Create a .env file in the root:
-- OPENROUTER_API_KEY=your_openrouter_api_key_here               # Register on https://openrouter.ai/ and Get an API Key from there (It's free of cost for this)
+- OPENROUTER_API_KEY=your_openrouter_api_key_here (Register on https://openrouter.ai/ and Get an API Key from there. It's free of cost.)
 
 ## Run the Project
 
 ### Backend (Node.js)
-- Run node app.js in terminal           # Make sure you are in the /trippr/ directory while running it
+- Run node app.js in terminal           (Make sure you are in the /trippr/ directory while running it)
 
 ### Frontend (index.html)
 - Run the index.html file from the folder or go to http://localhost:3000 after starting node server
