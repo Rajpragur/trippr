@@ -64,9 +64,9 @@ npm install
 
 ## Example Images
 
-- Input Sample [Image of Page](/running-sample.png)
-- Loading Bar Sample [Image of Page when loading](/loading-sample.png)
-- Result Sample [Image when Results are fetched](/result-sample.png)
+- Input Sample ![Image of Page](/running-sample.png)
+- Loading Bar Sample ![Image of Page when loading](/loading-sample.png)
+- Result Sample ![Image when Results are fetched](/result-sample.png)
 
 
 ## Technologies Used
