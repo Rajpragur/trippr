@@ -1,72 +1,86 @@
-# Trippr - AI-Powered Travel Itinerary Generator
+# 🌍 Trippr - AI-Powered Travel Itinerary Generator
 
-Trippr is a Node.js application that generates optimized travel itineraries using AI. It automatically creates multi-day travel plans with tourist attractions, optimal route planning, and booking links.
+[![Node.js CI](https://github.com/yourusername/trippr/actions/workflows/node.js.yml/badge.svg)](https://github.com/yourusername/trippr/actions)
 
-## Features
+**Trippr** is your personal AI travel buddy that builds **multi-day travel plans** for any destination. It smartly selects top tourist attractions, computes optimized travel paths, estimates costs, and even suggests hotel/flight booking links.
 
-- Generate detailed travel itineraries for any destination
-- Specify the number of days for your trip
-- Get optimized routes using the Traveling Salesman Problem algorithm
-- Receive hotel and flight booking links
-- Get detailed information about each attraction including:
-  - Exact location (latitude/longitude)
-  - Travel costs
-  - Ratings
-  - Descriptions
-  - Images
+---
 
-## Installation
+## 🚀 Features
 
-1. Clone this repository
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Create a `.env` file with your API keys:
-   ```
-   RAPID_API_KEY=your_rapid_api_key_here
-   OPENROUTER_API_KEY=your_openrouter_api_key_here
-   ```
+- 🧠 **AI-generated day-by-day travel itinerary**
+- 📍 Optimized routes using **Traveling Salesman Problem (TSP)** algorithm
+- 🏨 **Hotel** and ✈️ **Flight booking** links
+- 📌 Each attraction includes:
+  - Name + Description
+  - 📍 Location (latitude/longitude)
+  - ⭐ Ratings
+  - 💸 Estimated cost
+  - 📷 Image
 
-## Usage
+---
 
-1. Start the server:
-   ```
-   node app.js
-   ```
+## 📁 Project Structure
 
-2. Generate an itinerary:
-   ```
-   curl -X POST http://localhost:3000/generate-itinerary \
-     -H "Content-Type: application/json" \
-     -d '{"place": "Paris", "days": 3}'
-   ```
+```bash
+trippr/
+├── public/             # Frontend (HTML, CSS, JS)
+├── app.js              # Node.js backend
+├── .env                # API keys
+├── package.json
+├── README.md
+
+---
+
+## INSTALLATION
+
+### Clone the repository
+- git clone https://github.com/yourusername/trippr.git
+- cd trippr
+
+### Install dependencies
+npm install
+
+### Add your API keys. Create a .env file in the root:
+- OPENROUTER_API_KEY=your_openrouter_api_key_here
+
+## Run the Project
+
+### Backend (Node.js)
+- Run node app.js in terminal
+
+### Frontend (index.html)
+- Run the index.html file from the folder or go to http://localhost:3000 after starting node server
+
+## ⚙️ API Usage
+
+### `POST /generate-itinerary`
+
+Generate a travel itinerary.
+
+#### 🧪 Sample Request
+
+```bash
+curl -X POST http://localhost:3000/generate-itinerary \
+  -H "Content-Type: application/json" \
+  -d '{"place": "Paris", "days": 3}'
 
 ## Example Response
-
-```
 Total places: 12, Path length: 12
-1. Eiffel Tower - Cost: 500 INR, Distance: 0, Worth going to: 9.5/10
+
+1. Eiffel Tower - Cost: 500 INR, Distance: 0, Worth going to: 9.5/10  
    Description: Iconic iron lattice tower offering breathtaking views of Paris...
-2. Musée d'Orsay - Cost: 400 INR, Distance: 1.8, Worth going to: 9.1/10
-   Description: Famous museum housing impressive Impressionist and Post-Impressionist art...
+
+2. Musée d'Orsay - Cost: 400 INR, Distance: 1.8, Worth going to: 9.1/10  
+   Description: Museum housed in a former railway station with French art...
+
 ...
-```
-
-## API Endpoints
-
-- `GET /` - Check if the service is running
-- `POST /submit` - Submit generic data
-- `POST /generate-itinerary` - Generate a travel itinerary
 
 ## Technologies Used
 
 - Node.js
 - Express
 - OpenRouter AI API
-- RapidAPI (Booking.com and SkyScanner)
 - Dynamic Programming TSP algorithm
-
-## License
-
-MIT
+- HTML
+- CSS
