@@ -6,7 +6,6 @@
     <title>Trippr - Your Travel Itinerary Planner</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="container">
     <header>
         <div class="heading">
@@ -16,7 +15,7 @@
     </header>
         <form id="itinerary-form">
                     <input class="input" id="input1" type="text" placeholder="Which place do you wanna go" required>
-                    <input class="input" id="input2" type="number" placeholder="For how many days" min="1" max="14" required>
+                    <input class="input" id="input2" type="number" placeholder="For how many days" min="1" max="20" required>
             <div>
                 <button type="submit">
                     <div><span>Generate Itinerary</span></div>
@@ -40,7 +39,6 @@
     </div>
     <div id="completion"></div>
     <div id="error-message" style="display: none; color: red;"></div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("itinerary-form");
@@ -59,7 +57,7 @@
                 loadingDiv.style.display = "block";
                 completionDiv.style.display="none";
                 try {
-                    const response = await fetch('/api/generate-itinerary', {
+                    const response = await fetch('http://localhost:3000/generate-itinerary', {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ place, days }),
@@ -75,7 +73,6 @@
                     let result;
                     try {
                         const text = await response.text();
-                        console.log("Raw response:", text);
                         result = JSON.parse(text);
                     } catch (parseError) {
                         console.error("JSON parsing error:", parseError);
@@ -84,17 +81,20 @@
                     let glbplace = place;
                     resultTitle.textContent = `Places you should go to in ${place} in ${days} days`;
                     let pathHTML = '<div class="optimal-path">';
-                    if (result.optimal_path && result.optimal_path.length > 0) {
-                        result.optimal_path.forEach((place, index) => {
-                            pathHTML += 
-                                `<div class="card">
-                                    <h3 class="card__title">${place.name}</h3>
-                                    <p class="card__content"><strong>Rating:</strong> ${place.rating}/10</p>
-                                    <p class="card__content"><strong>Travel Cost:</strong> ${place.travel_cost.to_next} from ${glbplace}</p>
-                                    <p class="card__content"><strong>Location : ${place.nearby}</strong></p>
-                                    <p class="card__content">${place.note}</p>
-                                </div>
-                            `;
+                    if (result.itinerary && result.itinerary.length > 0) {
+                        result.itinerary.forEach((dayPlan, dayIndex) => {
+                            pathHTML += `<h3 class="day-heading">Day ${dayIndex + 1}</h3><div class="day-section">`;
+                            dayPlan.forEach((place) => {
+                                pathHTML += 
+                                    `<div class="card">
+                                        <h3 class="card__title">${place.name}</h3>
+                                        <p class="card__content"><strong>Rating:</strong> ${place.rating}/10</p>
+                                        <p class="card__content"><strong>Travel Cost:</strong> ${place.travel_cost.to_next} from ${glbplace}</p>
+                                        <p class="card__content"><strong>Location:</strong> ${place.nearby}</p>
+                                        <p class="card__content">${place.note}</p>
+                                    </div>`;
+                            });
+                            pathHTML += `</div>`;
                         });
                         completionDiv.innerHTML = '<h1 class="ending">Have a Safe and Nice Journey</h1>';
                         completionDiv.style.display = "block";
@@ -102,11 +102,9 @@
                         pathHTML += '<p>No places found in the itinerary.</p>';
                     }
                     pathHTML += '</div>';
-                    
                     optimalPath.innerHTML = pathHTML;
                     loadingDiv.style.display = "none";
                     resultsDiv.style.display = "block";
-                    
                 } catch (error) {
                     console.error("Error fetching itinerary:", error);
                     errorMessage.textContent = error.message || "Error generating itinerary. Please try again.";

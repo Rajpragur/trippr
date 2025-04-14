@@ -1,15 +1,11 @@
 const express = require("express");
 const app = express();
-const serverless = require('serverless-http');
-const path = require('path');
 require('dotenv').config();
 const cors = require("cors");
-const fetch = require("node-fetch");
 app.use(cors());
 app.use(express.json());
 
 const PORT = 3000;
-
 app.get("/", (req, res) => {
   res.send("Hi, Seems like Trippr is working!");
 });
@@ -74,7 +70,7 @@ let location = null;
 let day = null;
 let nodes = null;;
 
-app.post('/api/generate-itinerary', async(req, res) => {
+app.post('/generate-itinerary', async(req, res) => {
     console.log(req.body);
     const {place, days} = req.body;
     if(!place || !days){
@@ -157,8 +153,6 @@ app.post('/api/generate-itinerary', async(req, res) => {
             const cleanedContent = content.replace(/^```json|```$/g, '').trim();
 
             const itinerary = JSON.parse(cleanedContent);
-            console.log("Parsed places:", itinerary.places);
-            console.log(`Number of places returned: ${itinerary.places?.length || 0}`);
             itineraryData = {
                 ...itinerary,
                 places: itinerary.places.reduce((acc, place) => {
@@ -176,7 +170,6 @@ app.post('/api/generate-itinerary', async(req, res) => {
             };
             
             nodes = itineraryData.places.length;
-            console.log(`After removing duplicates: ${nodes} unique places`);
             const mat = Array.from({ length: nodes }, () => new Array(nodes).fill(0));
             for(let i = 0; i < nodes; i++) {
                 for(let j = 0; j < nodes; j++) {
@@ -189,7 +182,7 @@ app.post('/api/generate-itinerary', async(req, res) => {
                         );
                     }
                 }
-            }
+            }   
             const path = tspDP(mat);
             console.log(`Optimal Path to travel in ${place} is ->`);
             console.log(`Total places: ${itineraryData.places.length}, Path length: ${path.length}`);
@@ -203,12 +196,18 @@ app.post('/api/generate-itinerary', async(req, res) => {
                     console.log(`Warning: Invalid place index ${idx}`);
                 }
             }
+            const orderedPlaces = path.map(idx => itineraryData.places[idx]);
+            const perDay = Math.ceil(orderedPlaces.length / day);
+            const itineraryByDay = [];
+            for (let i = 0; i < day; i++) {
+                itineraryByDay.push(orderedPlaces.slice(i * perDay, (i + 1) * perDay));
+            }
             console.log("Have a Nice Journey\n");
-            res.json({
-                ...itineraryData,
-                optimal_path: path.map(idx => itineraryData.places[idx])
+            return res.status(200).json({
+                Place: place,
+                Days: day,
+                itinerary: itineraryByDay
             });
-            
         } catch (parseError) {
             console.error("JSON parsing error:", parseError);
             res.status(500).json({ message: "Invalid JSON response from AI" });
@@ -219,5 +218,6 @@ app.post('/api/generate-itinerary', async(req, res) => {
     }
 });
 
-module.exports = app;
-
+app.listen(PORT, () => {
+    console.log("It's working on PORT:" + PORT);
+});
