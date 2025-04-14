@@ -1,12 +1,12 @@
-# 🌍 Trippr - AI-Powered Travel Itinerary Generator
+# Trippr - AI-Powered Travel Itinerary Generator
 
 **Trippr** is your personal AI travel buddy that builds **multi-day travel plans** for any destination. It smartly selects top tourist attractions, computes optimized travel paths, estimates costs, and even suggests hotel/flight booking links.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🧠 **AI-generated day-by-day travel itinerary**
+- **AI-generated day-by-day travel itinerary**
 -  Optimized routes using **Traveling Salesman Problem (TSP)** algorithm
 - Each attraction includes:
   -  Name
