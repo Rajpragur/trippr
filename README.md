@@ -36,7 +36,8 @@ trippr/
 - cd trippr
 
 ### Install dependencies
-npm install
+- **Make sure node.js and npm are installed**. You can check Node.js version through *node -v* and NPM version through *npm -v* in your terminal. If not installed install through command *sudo apt install nodejs npm* and check again the version.
+- npm install
 
 ### Add your API keys. Create a .env file in the root:
 - OPENROUTER_API_KEY=your_openrouter_api_key_here (Register on https://openrouter.ai/ and Get an API Key from there. It's free of cost.)
@@ -44,7 +45,6 @@ npm install
 ## Run the Project
 
 ### Backend (Node.js)
-- **Make sure node.js and npm are installed**. You can check Node.js version through *node -v* and NPM version through *npm -v* in your terminal. If not installed install through command *sudo apt install nodejs npm* and check again the version.
 - Run node app.js in terminal           (Make sure you are in the /trippr/ directory while running it)
 
 ### Frontend (index.html)
