@@ -37,7 +37,7 @@ trippr/
 
 ### Install dependencies
 - **Make sure node.js and npm are installed**. You can check Node.js version through *node -v* and NPM version through *npm -v* in your terminal. If not installed install through command *sudo apt install nodejs npm* and check again the version.
-- npm install
+- npm install (for all the dependencies installation)
 
 ### Add your API keys. Create a .env file in the root:
 - OPENROUTER_API_KEY=your_openrouter_api_key_here (Register on https://openrouter.ai/ and Get an API Key from there. It's free of cost.)
