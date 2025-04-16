@@ -44,6 +44,7 @@ npm install
 ## Run the Project
 
 ### Backend (Node.js)
+- **Make sure node.js and npm are installed**. You can check Node.js version through *node -v* and NPM version through *npm -v* in your terminal.
 - Run node app.js in terminal           (Make sure you are in the /trippr/ directory while running it)
 
 ### Frontend (index.html)
