@@ -16,7 +16,7 @@
   -  Description
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```bash
 trippr/
@@ -49,7 +49,7 @@ npm install
 ### Frontend (index.html)
 - Run the index.html file from the folder or go to http://localhost:3000 after starting node server
 ---
-## ⚙️ API Usage
+## API Usage
 
 - **LLaMA 4 Maverick** is fast for data because it's lightweight, uses efficient attention, possibly fine-tuned for structured tasks, and benefits from Meta’s optimized backend hosting. Major reason why it's chosen is because it's free of cost not needing any further charges.
 ---
